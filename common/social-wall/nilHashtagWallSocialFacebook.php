@@ -1,7 +1,7 @@
 <?php
-class nilHashtagWallSocialVk extends nilHashtagWallSocialFactory
+class nilHashtagWallSocialFacebook extends nilHashtagWallSocialFactory
 {
-    private $_url = 'https://api.vk.com/method/newsfeed.search';
+    private $_url = 'https://graph.facebook.com/facebook/picture?redirect=false&access_token=f3a4674fbdb04fcac8552a68a8400a07';
     private $_search;
     private $_countPost = 10;
 
@@ -13,9 +13,14 @@ class nilHashtagWallSocialVk extends nilHashtagWallSocialFactory
     {
         $this->_search = $name;
         $url = $this->_getSearchUrl();
+        $token = 'EAACEdEose0cBAKo2Y1QLiblL1fbZAztpoL62Ex7R5yPzZBO1'.
+                 'ZB9ob1UMH4gZAE4mmQZBD7TPZAxvjhCYG5PNF8A6DlsGfz2'.
+                 'JXVZCTwjdrU7ansREBkWSF4OHEHfoPwgOyOicXYZ'.
+                 'ClS4ZCr8n87lEX1TJs5wzgkaupJtk254hZC46fpDAZDZD';
+        $url = 'https://graph.facebook.com/v2.6/search?q=tets&type=post&access_token='.$token;
         $result = $this->getResponseContentByUrl($url);
-//        echo "<pre>";
-//        print_r($result);
+        echo "<pre>";
+        print_r($result);
         $result = $this->_getPrepareMaterials($result);
 
         return $result;
@@ -60,6 +65,4 @@ class nilHashtagWallSocialVk extends nilHashtagWallSocialFactory
 
         return $image;
     }
-
-
 }

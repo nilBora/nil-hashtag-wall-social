@@ -32,4 +32,18 @@ class nilCorePlugin
 
 		return $content;
 	}
+
+	public function getResponseContentByUrl($url)
+	{
+		$response = wp_remote_get($url);
+
+		if (is_wp_error($response)) {
+			throw new Exception('Not connect to remote server', 1000);
+		}
+
+		$response_body = wp_remote_retrieve_body($response);
+		$result = json_decode($response_body, true);
+
+		return $result;
+	}
 }
