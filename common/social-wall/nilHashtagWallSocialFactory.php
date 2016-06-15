@@ -3,8 +3,9 @@ class nilHashtagWallSocialFactory extends nilCorePlugin
 {
     private $_instance = array();
     private $_types = array(
-        //'vk',
-        'facebook'
+        'vk',
+        //'facebook',
+        //'twitter',
     );
 
     public function __construct()

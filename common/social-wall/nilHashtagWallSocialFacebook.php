@@ -5,12 +5,9 @@ class nilHashtagWallSocialFacebook extends nilHashtagWallSocialFactory
     private $_search;
     private $_countPost = 10;
 
-    public function __construct()
-    {
-    }
-
     public function getAllMaterialsByHashtag($name)
     {
+        print_r($this->parent);
         $this->_search = $name;
         $url = $this->_getSearchUrl();
         $token = 'EAACEdEose0cBAKo2Y1QLiblL1fbZAztpoL62Ex7R5yPzZBO1'.

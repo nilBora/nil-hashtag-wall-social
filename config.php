@@ -11,3 +11,5 @@ define('HASHTAG_WALL_SOCIAL_TEMPLATE_PATH', $path.'templates/');
 define('HASHTAG_WALL_SOCIAL_COMMON_PATH', $path.'common/');
 
 define('HASHTAG_WALL_SOCIAL_FACTORY_PATH', $path.'common/social-wall/');
+
+define('HASHTAG_WALL_SOCIAL_SLUG', 'hashtag-social-wall');

@@ -3,7 +3,7 @@ class nilHashtagWallSocialFrontendPlugin extends nilHashtagWallSocialPlugin
 {
     protected function onInit()
     {
-        $this->addShortcodeReference(
+        $this->addShortcodeHook(
             'hashtagWallSocial',
             'onDisplayHashTagWall'
         );

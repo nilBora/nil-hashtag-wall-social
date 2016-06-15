@@ -4,6 +4,7 @@ class nilHashtagWallSocialPlugin extends nilCorePlugin
 	protected function onInit()
 	{
 		$this->onInitFrontendPlugin();
+		$this->onInitBackendPlugin();
 
 		parent::onInit();
 	}
@@ -20,6 +21,18 @@ class nilHashtagWallSocialPlugin extends nilCorePlugin
 		new nilHashtagWallSocialFrontendPlugin();
 	}
 
+	public function onInitBackendPlugin()
+	{
+		if (!class_exists('nilHashtagWallSocialBackendPlugin.php')) {
+			require_once(
+				HASHTAG_WALL_SOCIAL_COMMON_PATH.
+				'nilHashtagWallSocialBackendPlugin.php'
+			);
+		}
+
+		new nilHashtagWallSocialBackendPlugin();
+	}
+
 	public function getAllMaterialsByHashtag($hasTag)
 	{
 		if (!class_exists('nilHashtagWallSocialFactory.php')) {
@@ -32,7 +45,7 @@ class nilHashtagWallSocialPlugin extends nilCorePlugin
 		$factory = new nilHashtagWallSocialFactory();
 		return $factory->getAllMaterialsByHashtag($hasTag);
 	}
-	
+
 
 	
 	

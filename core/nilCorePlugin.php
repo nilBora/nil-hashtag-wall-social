@@ -5,15 +5,56 @@ class nilCorePlugin
 	{
 		$this->onInit();
 	}
-	
+
 	protected function onInit()
 	{
 
 	}
+	/*TODO По уму все ВП функции надо добавить в фасад WP */
 
-	public function addShortcodeReference($tag, $func)
+	public function addShortcodeHook($tag, $method)
 	{
-		add_shortcode($tag, array(&$this, $func));
+		$method = $this->_getPrepareMethod($method);
+
+		add_shortcode($tag, $method);
+	}
+
+	public function addActionHook($hook, $method, $priority=10, $acceptedArgs=1)
+	{
+		$method = $this->_getPrepareMethod($method);
+
+		add_action($hook, $method, $priority, $acceptedArgs);
+	}
+
+	public function addFilterHook($tag, $method, $priority=10, $acceptedArgs=1)
+	{
+		$method = $this->_getPrepareMethod($method);
+
+		add_filter($tag, $method, $priority, $acceptedArgs);
+	}
+
+	public function addAdminMenuPage(
+		$pageTitle,
+		$menuTitle,
+		$capability,
+		$menuSlug,
+		$method = '',
+		$iconUrl = '',
+		$position = null
+	)
+	{
+		$method = $this->_getPrepareMethod($method);
+
+		add_menu_page($pageTitle, $menuTitle, $capability, $menuSlug, $method);
+	}
+
+	private function _getPrepareMethod($method)
+	{
+		if (!is_array($method)) {
+			$method = array(&$this, $method);
+		}
+
+		return $method;
 	}
 
 	public function fetch($template, $vars = array())
