@@ -1,6 +1,7 @@
 <?php
 class nilHashtagWallSocialFrontendPlugin extends nilHashtagWallSocialPlugin
 {
+    protected $templateFolder = 'frontend';
     protected function onInit()
     {
         $this->addShortcodeHook(
@@ -38,6 +39,6 @@ class nilHashtagWallSocialFrontendPlugin extends nilHashtagWallSocialPlugin
             'content' => $array
         );
 
-        echo $this->fetch('frontend/wall.phtml', $vars);
+        echo $this->fetch('wall.phtml', $vars);
     }
 }

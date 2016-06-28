@@ -1,14 +1,34 @@
 <?php
+
 class nilCorePlugin
 {
+	protected $templateFolder;
+	private $_facade;
+
 	public function __construct()
 	{
+		$this->_doIncludeWordpressFacade();
+		$this->_doCreateFacade();
 		$this->onInit();
 	}
 
 	protected function onInit()
 	{
+	}
 
+	private function _doIncludeWordpressFacade()
+	{
+		if (!class_exists('nilWordpressFacade.php')) {
+			require_once(
+				dirname(__FILE__).
+				'/facade/wordpress/nilWordpressFacade.php'
+			);
+		}
+	}
+
+	private function _doCreateFacade()
+	{
+		$this->_facade = new nilWordpressFacade();
 	}
 	/*TODO По уму все ВП функции надо добавить в фасад WP */
 
@@ -16,21 +36,21 @@ class nilCorePlugin
 	{
 		$method = $this->_getPrepareMethod($method);
 
-		add_shortcode($tag, $method);
+		$this->_facade->addShortcodeHook($tag, $method);
 	}
 
 	public function addActionHook($hook, $method, $priority=10, $acceptedArgs=1)
 	{
 		$method = $this->_getPrepareMethod($method);
 
-		add_action($hook, $method, $priority, $acceptedArgs);
+		$this->_facade->addActionHook($hook, $method, $priority, $acceptedArgs);
 	}
 
 	public function addFilterHook($tag, $method, $priority=10, $acceptedArgs=1)
 	{
 		$method = $this->_getPrepareMethod($method);
 
-		add_filter($tag, $method, $priority, $acceptedArgs);
+		$this->_facade->addFilterHook($tag, $method, $priority, $acceptedArgs);
 	}
 
 	public function addAdminMenuPage(
@@ -45,7 +65,13 @@ class nilCorePlugin
 	{
 		$method = $this->_getPrepareMethod($method);
 
-		add_menu_page($pageTitle, $menuTitle, $capability, $menuSlug, $method);
+		$this->_facade->addAdminMenuPage(
+			$pageTitle,
+			$menuTitle,
+			$capability,
+			$menuSlug,
+			$method
+		);
 	}
 
 	private function _getPrepareMethod($method)
@@ -65,7 +91,7 @@ class nilCorePlugin
 
 		ob_start();
 
-		$template = HASHTAG_WALL_SOCIAL_TEMPLATE_PATH.$template;
+		$template = $this->_getTemplatePath($template);
 
 		include $template;
 
@@ -73,8 +99,8 @@ class nilCorePlugin
 
 		return $content;
 	}
-
-	public function getResponseContentByUrl($url)
+	/*TODO: Выводит ошибки если использовать фасад*/
+	protected function getResponseContentByUrl($url)
 	{
 		$response = wp_remote_get($url);
 
@@ -86,5 +112,13 @@ class nilCorePlugin
 		$result = json_decode($response_body, true);
 
 		return $result;
+	}
+
+	private function _getTemplatePath($template)
+	{
+		return HASHTAG_WALL_SOCIAL_TEMPLATE_PATH.
+			   $this->templateFolder.
+			   '/'.
+			   $template;
 	}
 }

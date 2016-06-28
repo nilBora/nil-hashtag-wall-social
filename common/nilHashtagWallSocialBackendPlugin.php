@@ -1,6 +1,7 @@
 <?php
 class nilHashtagWallSocialBackendPlugin  extends nilHashtagWallSocialPlugin
 {
+    protected $templateFolder = 'backend';
     protected function onInit()
     {
         $this->addActionHook('admin_menu', 'onPluginMainMenu');
@@ -16,9 +17,9 @@ class nilHashtagWallSocialBackendPlugin  extends nilHashtagWallSocialPlugin
             'onDisplayMainPage'
         );
     }
-    /*TODO Сделать так что не писать backend and frontend*/
+
     public function onDisplayMainPage()
     {
-        echo $this->fetch('backend/main-page.phtml', array());
+        echo $this->fetch('main-page.phtml', array());
     }
 }
